@@ -1,0 +1,96 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Space+Grotesk:wght@400;600;700&display=swap');
+
+:root {
+  --bg-void: #090a0f;
+  --bg-surface: #121318;
+  --bg-glass: rgba(10, 11, 16, 0.96);
+  
+  --accent-cyan: #00f0ff;
+  --accent-cyan-glow: rgba(0, 240, 255, 0.35);
+  --accent-violet: #7000ff;
+  --accent-emerald: #00ff9d;
+  
+  --text-primary: #ffffff;
+  --text-secondary: #cbd5e1;
+  --text-muted: #64748b;
+  
+  --border-delicate: rgba(0, 240, 255, 0.25);
+  --border-active: #00f0ff;
+  
+  --font-headline: 'Space Grotesk', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* Fluid responsive sizing */
+  --max-width-content-xl: min(1100px, 92vw);
+  --max-width-content-lg: min(920px, 93vw);
+  --max-width-content-md: min(860px, 94vw);
+
+  --padding-section-vertical: clamp(1rem, 3rem - 1.5vw, 3rem);
+  --padding-section-horizontal: clamp(0.85rem, 2rem - 0.8vw, 2rem);
+  --padding-card-lg: clamp(1rem, 2.75rem - 1vw, 2.75rem);
+  --padding-card-md: clamp(0.85rem, 1.75rem - 0.6vw, 1.75rem);
+
+  --font-hero-title: clamp(1.75rem, 3rem + 0.6vw, 4rem);
+  --font-section-title: clamp(1.2rem, 1.6rem + 0.2vw, 1.95rem);
+  --font-stat-val: clamp(1.1rem, 1.3rem + 0.1vw, 1.45rem);
+  --font-exp-role: clamp(1.2rem, 1.4rem + 0.1vw, 1.6rem);
+  --font-label-sm: clamp(0.65rem, 0.75rem + 0.05vw, 0.85rem);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  background-color: var(--bg-void);
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(--bg-void);
+  color: var(--text-primary);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 3px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-void);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 240, 255, 0.3);
+  border-radius: 0px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-cyan);
+}
+
+/* Solid Glass Panel Utility */
+.glass-panel {
+  background: var(--bg-glass);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  border: 1px solid var(--border-delicate);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.9);
+  border-radius: 0px;
+}
+
+.glow-cyan {
+  text-shadow: 0 0 12px var(--accent-cyan-glow);
+}
+
+.glow-box-cyan {
+  box-shadow: 0 0 20px var(--accent-cyan-glow);
+}
