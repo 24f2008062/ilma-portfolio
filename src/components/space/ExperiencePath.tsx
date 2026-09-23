@@ -10,20 +10,12 @@ export default function ExperiencePath() {
   const groupRef = useRef<THREE.Group>(null!);
   const portfolioData = useSpatialStore((state) => state.portfolioData);
 
-  useFrame((state, delta) => {
+  useFrame((state) => {
     if (groupRef.current) {
       const camZ = state.camera.position.z;
-      const dist = Math.abs(camZ - (-18));
-      const targetOpacity = THREE.MathUtils.clamp(1 - (dist - 5) / 14, 0, 1);
-
-      groupRef.current.traverse((child) => {
-        if ('material' in child && child.material) {
-          const mat = child.material as THREE.Material;
-          mat.transparent = true;
-          mat.opacity = THREE.MathUtils.damp(mat.opacity, targetOpacity, 8, delta);
-          child.visible = mat.opacity > 0.02;
-        }
-      });
+      // Experience landmark is centered around Z = -18, visible between -5 and -32
+      const isVisible = camZ < -5 && camZ > -32;
+      groupRef.current.visible = isVisible;
     }
   });
 

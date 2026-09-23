@@ -12,20 +12,12 @@ export default function ProjectPortals() {
   const setSelectedProjectId = useSpatialStore((state) => state.setSelectedProjectId);
   const portfolioData = useSpatialStore((state) => state.portfolioData);
 
-  useFrame((state, delta) => {
+  useFrame((state) => {
     if (groupRef.current) {
       const camZ = state.camera.position.z;
-      const dist = Math.abs(camZ - (-38));
-      const targetOpacity = THREE.MathUtils.clamp(1 - (dist - 5) / 14, 0, 1);
-
-      groupRef.current.traverse((child) => {
-        if ('material' in child && child.material) {
-          const mat = child.material as THREE.Material;
-          mat.transparent = true;
-          mat.opacity = THREE.MathUtils.damp(mat.opacity, targetOpacity, 8, delta);
-          child.visible = mat.opacity > 0.02;
-        }
-      });
+      // Projects portals centered around Z = -38 to -44, visible between -25 and -55
+      const isVisible = camZ < -25 && camZ > -55;
+      groupRef.current.visible = isVisible;
     }
   });
 

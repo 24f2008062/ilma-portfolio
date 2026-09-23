@@ -22,9 +22,12 @@
 
 .inactiveSection {
   opacity: 0;
+  opacity: 0.25;
   pointer-events: none;
   transform: translate3d(0, 30px, 0) scale(0.95);
   filter: blur(10px);
+  transform: translate3d(0, 15px, 0) scale(0.98);
+  filter: blur(2px);
 }
 
 .hudHeader {
