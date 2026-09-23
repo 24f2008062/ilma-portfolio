@@ -13,6 +13,14 @@ import ProjectsSection from '@/components/overlay/ProjectsSection';
 import ContactSection from '@/components/overlay/ContactSection';
 import styles from './page.module.css';
 
+const CHAPTER_MAP: Record<string, ChapterNumber> = {
+  'chapter-01': 1,
+  'chapter-02': 2,
+  'chapter-03': 3,
+  'chapter-04': 4,
+  'chapter-05': 5,
+};
+
 export default function Home() {
   const setScrollProgress = useSpatialStore((state) => state.setScrollProgress);
   const setActiveChapter = useSpatialStore((state) => state.setActiveChapter);
@@ -24,7 +32,7 @@ export default function Home() {
   }, [fetchRemotePortfolioData]);
 
   useEffect(() => {
-    // Initialize Lenis Smooth Scroll Inertia Engine with high scroll speed
+    // Initialize Lenis Smooth Scroll Inertia Engine
     const lenis = new Lenis({
       duration: 0.8,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -36,12 +44,34 @@ export default function Home() {
 
     lenisRef.current = lenis;
 
+    const updateActiveSection = () => {
+      const viewportCenter = window.innerHeight * 0.45;
+      let closestChapter: ChapterNumber = 1;
+      let minDistance = Infinity;
+
+      Object.entries(CHAPTER_MAP).forEach(([id, chapterNum]) => {
+        const el = document.getElementById(id);
+        if (el) {
+          const rect = el.getBoundingClientRect();
+          const elemCenter = rect.top + rect.height * 0.4;
+          const dist = Math.abs(elemCenter - viewportCenter);
+          if (dist < minDistance) {
+            minDistance = dist;
+            closestChapter = chapterNum;
+          }
+        }
+      });
+
+      setActiveChapter(closestChapter);
+    };
+
     const handleScroll = () => {
       const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
       if (scrollHeight > 0) {
         const progress = Math.min(1, Math.max(0, window.scrollY / scrollHeight));
         setScrollProgress(progress);
       }
+      updateActiveSection();
     };
 
     lenis.on('scroll', handleScroll);
@@ -55,41 +85,8 @@ export default function Home() {
 
     handleScroll();
 
-    // IntersectionObserver to accurately detect visible chapter section on both desktop & mobile
-    const chapterMap: Record<string, ChapterNumber> = {
-      'chapter-01': 1,
-      'chapter-02': 2,
-      'chapter-03': 3,
-      'chapter-04': 4,
-      'chapter-05': 5,
-    };
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const chapter = chapterMap[entry.target.id];
-            if (chapter) {
-              setActiveChapter(chapter);
-            }
-          }
-        });
-      },
-      {
-        root: null,
-        rootMargin: '-15% 0px -15% 0px',
-        threshold: 0.15,
-      }
-    );
-
-    Object.keys(chapterMap).forEach((id) => {
-      const el = document.getElementById(id);
-      if (el) observer.observe(el);
-    });
-
     return () => {
       window.removeEventListener('scroll', handleScroll);
-      observer.disconnect();
       lenis.destroy();
     };
   }, [setScrollProgress, setActiveChapter]);

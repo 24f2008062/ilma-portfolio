@@ -26,22 +26,14 @@ export default function SkillConstellation() {
     });
   }, [skills]);
 
-  useFrame((state, delta) => {
+  useFrame((state) => {
     if (groupRef.current) {
       groupRef.current.rotation.y = Math.sin(state.clock.getElapsedTime() * 0.2) * 0.1;
 
       const camZ = state.camera.position.z;
-      const dist = Math.abs(camZ - 0);
-      const targetOpacity = THREE.MathUtils.clamp(1 - (dist - 4) / 12, 0, 1);
-
-      groupRef.current.traverse((child) => {
-        if ('material' in child && child.material) {
-          const mat = child.material as THREE.Material;
-          mat.transparent = true;
-          mat.opacity = THREE.MathUtils.damp(mat.opacity, targetOpacity, 8, delta);
-          child.visible = mat.opacity > 0.02;
-        }
-      });
+      // Skills constellation is centered at Z = 0, visible when camZ is between -15 and 15
+      const isVisible = camZ > -15 && camZ < 15;
+      groupRef.current.visible = isVisible;
     }
   });
 

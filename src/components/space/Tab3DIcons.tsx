@@ -14,6 +14,7 @@ import {
   MapPin,
   Sparkles,
   Phone,
+  Send,
   Users,
   Layout,
   Brush,
@@ -159,6 +160,7 @@ export default function Tab3DIcons() {
             <LinkedinVector size={52} color="#00f0ff" />
             <Mail size={52} color="#00ff9d" />
             <Phone size={48} color="#ffaa00" />
+            <Send size={48} color="#ffaa00" />
             <MapPin size={48} color="#7000ff" />
           </div>
         </Html>
